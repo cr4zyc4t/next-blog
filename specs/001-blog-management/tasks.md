@@ -65,17 +65,17 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ### Tests for User Story 1 ⚠️ (write FIRST, verify they fail)
 
-- [ ] T019 [P] [US1] Failing E2E `tests/e2e/home.spec.ts` for acceptance scenarios: two+ published posts listed newest-first; unpublished absent; future-scheduled absent; each entry shows "title, description, author name, and publication date"; zero posts → friendly empty state; 12+ seeded posts → first batch 10, "load more" appends remaining, control disappears when exhausted (FR-001…007); assert SC-001 timing — initial batch visible within 2 s of navigation and each "load more" batch within 2 s of the click (Playwright `expect.poll` with 2000 ms budget, dev-profile numbers, not CI-critical)
-- [ ] T020 [P] [US1] Failing E2E `tests/e2e/post-page.spec.ts`: clicking a home entry opens `/posts/{slug}` with full body formatting preserved (FR-005, FR-017); direct GET of an unpublished or not-yet-visible post's slug → 404 (SC-004)
+- [X] T019 [P] [US1] Failing E2E `tests/e2e/home.spec.ts` for acceptance scenarios: two+ published posts listed newest-first; unpublished absent; future-scheduled absent; each entry shows "title, description, author name, and publication date"; zero posts → friendly empty state; 12+ seeded posts → first batch 10, "load more" appends remaining, control disappears when exhausted (FR-001…007); assert SC-001 timing — initial batch visible within 2 s of navigation and each "load more" batch within 2 s of the click (Playwright `expect.poll` with 2000 ms budget, dev-profile numbers, not CI-critical)
+- [X] T020 [P] [US1] Failing E2E `tests/e2e/post-page.spec.ts`: clicking a home entry opens `/posts/{slug}` with full body formatting preserved (FR-005, FR-017); direct GET of an unpublished or not-yet-visible post's slug → 404 (SC-004)
 
 ### Implementation for User Story 1
 
-- [ ] T021 [P] [US1] List components in `src/components/post-list/PostList.tsx`, `PostListItem.tsx` (title link → `/posts/{slug}`, description, author name, publish date), `EmptyState.tsx` (FR-004, FR-007)
-- [ ] T022 [US1] Home page `src/app/page.tsx`: dynamic rendering (no cache > 60 s — research D1), first batch via `listFirstBatch` (T014), renders T021 components (FR-001, FR-002, FR-003)
-- [ ] T023 [US1] Server Action `loadMorePosts` in `src/lib/actions/loadMorePosts.ts` per contract: input `cursor = { publishTime: ISO-8601 string, id: uuid }`, output `{ posts: PostListItem[], hasMore: boolean }`, ≤10 items strictly older, invalid cursor → "empty result + hasMore: false (fail closed)"
-- [ ] T024 [US1] Load-more control in `src/components/post-list/LoadMoreButton.tsx`: client component calling T023, appends batches newest-first order preserved, hidden when `hasMore` false (FR-006, Edge Case "All posts already loaded")
-- [ ] T025 [US1] Public post page `src/app/posts/[slug]/page.tsx`: fetch via `getVisibleBySlug`; render title, author name, publish date, `MarkdownBody` (T015); not-found → 404 for missing OR non-visible posts (FR-005, FR-017, SC-004)
-- [ ] T026 [US1] Run `tests/e2e/home.spec.ts` + `tests/e2e/post-page.spec.ts` green, then `npm run lint && npm run typecheck && npm run test`
+- [X] T021 [P] [US1] List components in `src/components/post-list/PostList.tsx`, `PostListItem.tsx` (title link → `/posts/{slug}`, description, author name, publish date), `EmptyState.tsx` (FR-004, FR-007)
+- [X] T022 [US1] Home page `src/app/page.tsx`: dynamic rendering (no cache > 60 s — research D1), first batch via `listFirstBatch` (T014), renders T021 components (FR-001, FR-002, FR-003)
+- [X] T023 [US1] Server Action `loadMorePosts` in `src/lib/actions/loadMorePosts.ts` per contract: input `cursor = { publishTime: ISO-8601 string, id: uuid }`, output `{ posts: PostListItem[], hasMore: boolean }`, ≤10 items strictly older, invalid cursor → "empty result + hasMore: false (fail closed)"
+- [X] T024 [US1] Load-more control in `src/components/post-list/LoadMoreButton.tsx`: client component calling T023, appends batches newest-first order preserved, hidden when `hasMore` false (FR-006, Edge Case "All posts already loaded")
+- [X] T025 [US1] Public post page `src/app/posts/[slug]/page.tsx`: fetch via `getVisibleBySlug`; render title, author name, publish date, `MarkdownBody` (T015); not-found → 404 for missing OR non-visible posts (FR-005, FR-017, SC-004)
+- [X] T026 [US1] Run `tests/e2e/home.spec.ts` + `tests/e2e/post-page.spec.ts` green, then `npm run lint && npm run typecheck && npm run test`
 
 **Checkpoint**: Public blog is fully browsable (with seeded content) — US1 functional independently
 
