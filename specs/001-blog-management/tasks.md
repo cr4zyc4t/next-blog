@@ -89,17 +89,17 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ### Tests for User Story 2 ⚠️ (write FIRST, verify they fail)
 
-- [ ] T027 [P] [US2] Failing unit tests `src/tests/markdown-roundtrip.test.ts` for the contract guarantee "parse(serialize(doc)) ≡ doc" over "headings h1–h3, bold, italic, links, ordered/unordered lists, paragraphs" (FR-015, FR-016, FR-018, SC-005)
-- [ ] T028 [P] [US2] Failing E2E `tests/e2e/create-post.spec.ts`: valid post appears on home within 2 s of save (SC-001, SC-002); empty title → inline "Title is required", nothing persisted (FR-010, SC-006); save unpublished → stored but absent from home (US2-5); markdown-mode typing renders as formatting on public page (US2-3)
+- [X] T027 [P] [US2] Failing unit tests `src/tests/markdown-roundtrip.test.ts` for the contract guarantee "parse(serialize(doc)) ≡ doc" over "headings h1–h3, bold, italic, links, ordered/unordered lists, paragraphs" (FR-015, FR-016, FR-018, SC-005)
+- [X] T028 [P] [US2] Failing E2E `tests/e2e/create-post.spec.ts`: valid post appears on home within 2 s of save (SC-001, SC-002); empty title → inline "Title is required", nothing persisted (FR-010, SC-006); save unpublished → stored but absent from home (US2-5); markdown-mode typing renders as formatting on public page (US2-3)
 
 ### Implementation for User Story 2
 
-- [ ] T029 [US2] Editor serialization helper `src/lib/editor/serialization.ts`: Tiptap + `tiptap-markdown` config limited to the FR-015 node set; make T027 pass (research D3)
-- [ ] T030 [US2] Dual-mode editor `src/components/post-editor/PostEditor.tsx`: WYSIWYG ⇄ raw-markdown toggle over one body value — toggle shows serialized/parse-converted content, "edits in either mode MUST be reflected in the other" (FR-016, FR-018)
-- [ ] T031 [US2] Form component `src/components/post-editor/PostForm.tsx`: fields title/description/authorName (default `AUTHOR_DEFAULT_NAME`) /published toggle/body (T030); inline field errors from server (FR-009, FR-010, SC-006)
-- [ ] T032 [US2] Server Action `savePost` (CREATE path only) in `src/lib/actions/savePost.ts`: Zod-validate via T012 (failure → `{ ok: false, fieldErrors }`, nothing persisted), slug via T010, success → `{ ok: true, id, slug }` (contracts)
-- [ ] T033 [US2] Create page `src/app/(studio)/studio/posts/new/page.tsx` wiring PostForm → `savePost`, redirect to `/studio/posts` placeholder on success (FR-008 unlisted, FR-011 persistence)
-- [ ] T034 [US2] Run `tests/e2e/create-post.spec.ts` and `src/tests/markdown-roundtrip.test.ts` green, then all gates (lint/typecheck/test)
+- [X] T029 [US2] Editor serialization helper `src/lib/editor/serialization.ts`: Tiptap + `tiptap-markdown` config limited to the FR-015 node set; make T027 pass (research D3)
+- [X] T030 [US2] Dual-mode editor `src/components/post-editor/PostEditor.tsx`: WYSIWYG ⇄ raw-markdown toggle over one body value — toggle shows serialized/parse-converted content, "edits in either mode MUST be reflected in the other" (FR-016, FR-018)
+- [X] T031 [US2] Form component `src/components/post-editor/PostForm.tsx`: fields title/description/authorName (default `AUTHOR_DEFAULT_NAME`) /published toggle/body (T030); inline field errors from server (FR-009, FR-010, SC-006)
+- [X] T032 [US2] Server Action `savePost` (CREATE path only) in `src/lib/actions/savePost.ts`: Zod-validate via T012 (failure → `{ ok: false, fieldErrors }`, nothing persisted), slug via T010, success → `{ ok: true, id, slug }` (contracts)
+- [X] T033 [US2] Create page `src/app/(studio)/studio/posts/new/page.tsx` wiring PostForm → `savePost`, redirect to `/studio/posts` placeholder on success (FR-008 unlisted, FR-011 persistence)
+- [X] T034 [US2] Run `tests/e2e/create-post.spec.ts` and `src/tests/markdown-roundtrip.test.ts` green, then all gates (lint/typecheck/test)
 
 **Checkpoint**: MVP COMPLETE — content can be authored and browsed end-to-end (US1 + US2)
 

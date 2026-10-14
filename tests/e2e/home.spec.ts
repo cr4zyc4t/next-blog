@@ -30,7 +30,6 @@ test('load more appends older batches and disappears when exhausted (FR-006)', a
   page,
 }) => {
   await page.goto('/')
-  const list = page.getByRole('list', { name: 'Published posts' })
   const button = page.getByRole('button', { name: 'Load more' })
   await expect(button).toBeVisible()
 

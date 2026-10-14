@@ -4,7 +4,6 @@ import { migrate } from 'drizzle-orm/node-postgres/migrator'
 import { Pool } from 'pg'
 
 import * as schema from '@/db/schema'
-import { posts } from '@/db/schema'
 
 export type DbHandle = {
   db: NodePgDatabase<typeof schema>
