@@ -25,13 +25,13 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 **Purpose**: Project initialization per plan.md Technical Context
 
-- [ ] T001 Initialize Next.js 16.4 (latest patch — security note research D1) at repository root: `npx create-next-app@latest . --typescript --app --eslint` with TypeScript `strict: true` in tsconfig.json, App Router, `src/` layout (`src/app/layout.tsx`, `src/app/page.tsx` placeholder)
-- [ ] T002 [P] Configure ESLint with Prettier per user directive: `eslint.config.mjs` extending `eslint-config-next` + `eslint-config-prettier`, prettier formatting rules in `.prettierrc`; add `lint` script (`next lint` or `eslint .`)
-- [ ] T003 [P] Configure Vitest: `vitest.config.ts` (unit tests in `src/tests/`, Testing Library + jsdom for component tests); add `test` script
-- [ ] T004 [P] Configure Playwright: `playwright.config.ts` (baseURL http://localhost:3000, `webServer` starts `npm run dev`), specs in `tests/e2e/`; add `test:e2e` script
-- [ ] T005 [P] Docker topology per research D11: `docker-compose.yml` with `db` service (`postgres:18`, named volume, port 5432) for local dev and `app` service (multi-stage `Dockerfile` building `next build`) under profile `deploy`; dev flow = `docker compose up -d db` + native `npm run dev`
-- [ ] T006 Configure Drizzle + env: `drizzle.config.ts` (pgres dialect, schema `src/db/schema.ts`, out `src/db/migrations/`), pg-pooled client in `src/db/client.ts` reading `DATABASE_URL`; `.env.example` with `DATABASE_URL`, `AUTHOR_DEFAULT_NAME` (fallback "Author", research D7), `STUDIO_BASE_PATH` (default `/studio`)
-- [ ] T007 Add repeatable gate/db scripts to package.json (constitution Principle III): `lint`, `typecheck` (`tsc --noEmit`), `test`, `test:e2e`, `db:generate`, `db:migrate`, `db:push` (dev), `db:seed`
+- [X] T001 Initialize Next.js 16.4 (latest patch — security note research D1) at repository root: `npx create-next-app@latest . --typescript --app --eslint` with TypeScript `strict: true` in tsconfig.json, App Router, `src/` layout (`src/app/layout.tsx`, `src/app/page.tsx` placeholder)
+- [X] T002 [P] Configure ESLint with Prettier per user directive: `eslint.config.mjs` extending `eslint-config-next` + `eslint-config-prettier`, prettier formatting rules in `.prettierrc`; add `lint` script (`next lint` or `eslint .`)
+- [X] T003 [P] Configure Vitest: `vitest.config.ts` (unit tests in `src/tests/`, Testing Library + jsdom for component tests); add `test` script
+- [X] T004 [P] Configure Playwright: `playwright.config.ts` (baseURL http://localhost:3000, `webServer` starts `npm run dev`), specs in `tests/e2e/`; add `test:e2e` script
+- [X] T005 [P] Docker topology per research D11: `docker-compose.yml` with `db` service (`postgres:18`, named volume, port 5432) for local dev and `app` service (multi-stage `Dockerfile` building `next build`) under profile `deploy`; dev flow = `docker compose up -d db` + native `npm run dev`
+- [X] T006 Configure Drizzle + env: `drizzle.config.ts` (pgres dialect, schema `src/db/schema.ts`, out `src/db/migrations/`), pg-pooled client in `src/db/client.ts` reading `DATABASE_URL`; `.env.example` with `DATABASE_URL`, `AUTHOR_DEFAULT_NAME` (fallback "Author", research D7), `STUDIO_BASE_PATH` (default `/studio`)
+- [X] T007 Add repeatable gate/db scripts to package.json (constitution Principle III): `lint`, `typecheck` (`tsc --noEmit`), `test`, `test:e2e`, `db:generate`, `db:migrate`, `db:push` (dev), `db:seed`
 
 ---
 
