@@ -134,14 +134,14 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ### Tests for User Story 4 ⚠️
 
-- [ ] T040 [P] [US4] Failing E2E `tests/e2e/scheduled-post.spec.ts`: scheduled post absent from home AND direct `/posts/{slug}` → 404 before instant; auto-appears within 1 minute after (SC-003, SC-004); pushing publish time later re-hides until new instant (US4-3, Edge Case "past to future"); malformed date input → field error, save rejected (US4-4)
-- [ ] T041 [P] [US4] Failing unit tests `src/tests/publish-datetime.test.ts`: datetime-local interpretation "browser local zone → ISO 8601 instant (UTC)" submitted (research D8); "parseable ISO instant, year 1970–2100" rule; `published=true` with no chosen time → `publish_time = now()`; unpublished+scheduled stays hidden (Edge Case "Scheduling while unpublished")
+- [X] T040 [P] [US4] Failing E2E `tests/e2e/scheduled-post.spec.ts`: scheduled post absent from home AND direct `/posts/{slug}` → 404 before instant; auto-appears within 1 minute after (SC-003, SC-004); pushing publish time later re-hides until new instant (US4-3, Edge Case "past to future"); malformed date input → field error, save rejected (US4-4)
+- [X] T041 [P] [US4] Failing unit tests `src/tests/publish-datetime.test.ts`: datetime-local interpretation "browser local zone → ISO 8601 instant (UTC)" submitted (research D8); "parseable ISO instant, year 1970–2100" rule; `published=true` with no chosen time → `publish_time = now()`; unpublished+scheduled stays hidden (Edge Case "Scheduling while unpublished")
 
 ### Implementation for User Story 4
 
-- [ ] T042 [US4] Publish controls `src/components/post-editor/PublishControls.tsx`: `<input type="datetime-local">` in author local time, submitted as ISO UTC instant, "Publish now" convenience (FR-019); integrate into PostForm
-- [ ] T043 [US4] Publish semantics in `src/lib/actions/savePost.ts`: no time + published → `publish_time = now()` (visible immediately, FR-021); future instant → scheduled, hidden until then (FR-019/020); past/present → immediate
-- [ ] T044 [US4] Run `tests/e2e/scheduled-post.spec.ts` and `src/tests/publish-datetime.test.ts` green, then all gates
+- [X] T042 [US4] Publish controls `src/components/post-editor/PublishControls.tsx`: `<input type="datetime-local">` in author local time, submitted as ISO UTC instant, "Publish now" convenience (FR-019); integrate into PostForm
+- [X] T043 [US4] Publish semantics in `src/lib/actions/savePost.ts`: no time + published → `publish_time = now()` (visible immediately, FR-021); future instant → scheduled, hidden until then (FR-019/020); past/present → immediate
+- [X] T044 [US4] Run `tests/e2e/scheduled-post.spec.ts` and `src/tests/publish-datetime.test.ts` green, then all gates
 
 **Checkpoint**: Scheduled publishing verified against live clock; visibility remains purely query-time (no cron)
 
