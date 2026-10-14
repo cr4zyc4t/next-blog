@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useState } from 'react'
 
-import { editorExtensions } from '@/lib/editor/serialization'
+import { editorExtensions, getEditorMarkdown } from '@/lib/editor/serialization'
 
 /**
  * FR-015/016/018: one body value; WYSIWYG (Tiptap) and raw-markdown textarea
@@ -27,7 +27,7 @@ export function PostEditor({
     immediatelyRender: false, // SSR hydration-safe (Next App Router)
     editorProps: { attributes: { 'aria-label': 'Body (rich text)' } },
     onUpdate: ({ editor: e }) => {
-      const md = (e.storage as { markdown: { getMarkdown(): string } }).markdown.getMarkdown()
+      const md = getEditorMarkdown(e)
       setMarkdownText(md)
       onChange(md)
     },

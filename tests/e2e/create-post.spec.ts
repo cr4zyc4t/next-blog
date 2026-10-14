@@ -1,6 +1,9 @@
 // T028 (FAIL FIRST — TDD): US2 create flow, validation, unpublished handling.
 import { expect, test } from '@playwright/test'
 
+import { seedFresh } from './helpers'
+test.beforeAll(seedFresh)
+
 test('author creates a post: WYSIWYG bold survives, appears on home within 2 s', async ({
   page,
 }) => {

@@ -22,7 +22,29 @@ export async function savePost(input: PostInput): Promise<SaveResult> {
   const d = parsed.data
 
   if (d.id) {
-    return { ok: false, fieldErrors: { form: 'Editing arrives with the edit story' } }
+    // UPDATE path (FR-012, T038): regenerate slug from the (possibly new) title,
+    // excluding this row's own slug from collision checking; bump updated_at.
+    const all = await db.select({ id: posts.id, slug: posts.slug }).from(posts)
+    const others = all.filter((r) => r.id !== d.id).map((r) => r.slug)
+    const slug = generateUniqueSlug(d.title, others)
+    const updated = await db
+      .update(posts)
+      .set({
+        slug,
+        title: d.title,
+        description: d.description,
+        body: d.body,
+        authorName: d.authorName,
+        published: d.published,
+        updatedAt: new Date(),
+        ...(d.publishTime ? { publishTime: d.publishTime } : {}),
+      })
+      .where(eq(posts.id, d.id))
+      .returning({ id: posts.id, slug: posts.slug })
+    if (updated.length === 0) {
+      return { ok: false, fieldErrors: { form: 'Post no longer exists' } }
+    }
+    return { ok: true, id: updated[0].id, slug: updated[0].slug }
   }
 
   const existing = await db.select({ slug: posts.slug }).from(posts)

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -14,8 +15,8 @@ export default function StudioLayout({ children }: { children: React.ReactNode }
       <header className="studio-header">
         <span className="studio-badge">Studio (unlisted)</span>
         <nav aria-label="Studio">
-          <a href="/studio/posts">Posts</a>
-          <a href="/studio/posts/new">New post</a>
+          <Link href="/studio/posts">Posts</Link>
+          <Link href="/studio/posts/new">New post</Link>
         </nav>
       </header>
       <div className="studio-body">{children}</div>

@@ -113,14 +113,14 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T035 [P] [US3] Failing E2E `tests/e2e/edit-post.spec.ts`: title/body change reflected on post page and home entry; published→unpublished hides from home on next load (US3-2); unpublished→published appears (US3-3); title change regenerates slug and old slug 404s (research D9) (FR-012, SC-007)
+- [X] T035 [P] [US3] Failing E2E `tests/e2e/edit-post.spec.ts`: title/body change reflected on post page and home entry; published→unpublished hides from home on next load (US3-2); unpublished→published appears (US3-3); title change regenerates slug and old slug 404s (research D9) (FR-012, SC-007)
 
 ### Implementation for User Story 3
 
-- [ ] T036 [US3] Studio post list `src/app/(studio)/studio/posts/page.tsx`: ALL posts any state via `listAllForStudio` ("newest updated_at first"), Edit links per row (FR-014 list context)
-- [ ] T037 [US3] Edit page `src/app/(studio)/studio/posts/[id]/page.tsx`: loads post by id, prefills PostForm (id-keyed management URL per research D9; last-save-wins — no conflict UI)
-- [ ] T038 [US3] Extend `savePost` in `src/lib/actions/savePost.ts` with UPDATE path: same Zod validation, slug regenerated from title with `-N` uniqueness suffix, bump `updated_at` (FR-012)
-- [ ] T039 [US3] Run `tests/e2e/edit-post.spec.ts` green, then all gates
+- [X] T036 [US3] Studio post list `src/app/(studio)/studio/posts/page.tsx`: ALL posts any state via `listAllForStudio` ("newest updated_at first"), Edit links per row (FR-014 list context)
+- [X] T037 [US3] Edit page `src/app/(studio)/studio/posts/[id]/page.tsx`: loads post by id, prefills PostForm (id-keyed management URL per research D9; last-save-wins — no conflict UI)
+- [X] T038 [US3] Extend `savePost` in `src/lib/actions/savePost.ts` with UPDATE path: same Zod validation, slug regenerated from title with `-N` uniqueness suffix, bump `updated_at` (FR-012)
+- [X] T039 [US3] Run `tests/e2e/edit-post.spec.ts` green, then all gates
 
 **Checkpoint**: US1+US2+US3 all functional independently
 

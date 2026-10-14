@@ -1,6 +1,9 @@
 // T019 (FAIL FIRST — TDD): US1 home page acceptance scenarios + SC-001 timing.
 import { expect, test } from '@playwright/test'
 
+import { seedFresh } from './helpers'
+test.beforeAll(seedFresh)
+
 test('published posts are listed newest-first with title, description, author, date', async ({
   page,
 }) => {

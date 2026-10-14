@@ -26,6 +26,12 @@ export function editorExtensions() {
   ]
 }
 
+/** Typed accessor for tiptap-markdown storage (avoids `any` — Principle IV). */
+export function getEditorMarkdown(editor: { storage: unknown }): string {
+  const storage = editor.storage as { markdown?: { getMarkdown(): string } } | undefined
+  return storage?.markdown?.getMarkdown() ?? ''
+}
+
 /** Headless parse → serialize (used by the round-trip guarantee tests, T027). */
 export function markdownRoundTrip(markdown: string): string {
   const editor = new Editor({
@@ -34,7 +40,7 @@ export function markdownRoundTrip(markdown: string): string {
     content: markdown,
   })
   try {
-    return (editor.storage as { markdown: { getMarkdown(): string } }).markdown.getMarkdown()
+    return getEditorMarkdown(editor)
   } finally {
     editor.destroy()
   }

@@ -1,6 +1,9 @@
 // T020 (FAIL FIRST — TDD): FR-005/FR-017 public post page + SC-004 404 rule.
 import { expect, test } from '@playwright/test'
 
+import { seedFresh } from './helpers'
+test.beforeAll(seedFresh)
+
 test('clicking a home entry opens the post page with the full formatted body', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('link', { name: 'Seed post number 1', exact: true }).click()
