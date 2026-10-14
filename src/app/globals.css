@@ -117,3 +117,5 @@ fieldset { border: 1px solid #ddd; border-radius: 4px; margin-top: 12px; }
 .post-form button[type="submit"] { align-self: flex-start; }
 .studio-posts-list article { padding: 10px 0; border-bottom: 1px solid #e4e4e4; }
 .studio-posts-list .state-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; background: #eee; }
+.publish-controls { margin-top: 12px; }
+.hint { color: #777; font-size: 0.85rem; }

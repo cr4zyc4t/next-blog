@@ -6,6 +6,7 @@ import { useState, useTransition } from 'react'
 import { savePost } from '@/lib/actions/savePost'
 import type { FieldErrors } from '@/lib/validation/post-schema'
 import { PostEditor } from './PostEditor'
+import { fromDatetimeLocal, PublishControls, toDatetimeLocal } from './PublishControls'
 
 export type PostFormValues = {
   id?: string
@@ -28,6 +29,7 @@ export function PostForm({
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+  const [publishLocal, setPublishLocal] = useState(toDatetimeLocal(initial?.publishTime))
   const [values, setValues] = useState<PostFormValues>(
     initial ?? {
       title: '',
@@ -53,7 +55,7 @@ export function PostForm({
         body: values.body,
         authorName: values.authorName,
         published: values.published,
-        publishTime: values.publishTime ?? null,
+        publishTime: fromDatetimeLocal(publishLocal),
       })
       if (result.ok) {
         router.push('/studio/posts')
@@ -106,6 +108,9 @@ export function PostForm({
         />
         Published
       </label>
+
+      <PublishControls value={publishLocal} onChange={setPublishLocal} />
+      {error('publishTime')}
 
       <fieldset>
         <legend>Body</legend>

@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm'
 
 import { db } from '@/db/client'
 import { posts } from '@/db/schema'
+import { resolvePublishTime } from '@/lib/posts/publish'
 import { generateUniqueSlug } from '@/lib/slugify'
 import { extractFieldErrors, postInputSchema, type FieldErrors, type PostInput } from '@/lib/validation/post-schema'
 
@@ -20,6 +21,7 @@ export async function savePost(input: PostInput): Promise<SaveResult> {
     return { ok: false, fieldErrors: extractFieldErrors(parsed.error) }
   }
   const d = parsed.data
+  const publishTime = resolvePublishTime(d.published, d.publishTime ?? null, new Date())
 
   if (d.id) {
     // UPDATE path (FR-012, T038): regenerate slug from the (possibly new) title,
@@ -36,8 +38,8 @@ export async function savePost(input: PostInput): Promise<SaveResult> {
         body: d.body,
         authorName: d.authorName,
         published: d.published,
+        publishTime,
         updatedAt: new Date(),
-        ...(d.publishTime ? { publishTime: d.publishTime } : {}),
       })
       .where(eq(posts.id, d.id))
       .returning({ id: posts.id, slug: posts.slug })
@@ -59,7 +61,7 @@ export async function savePost(input: PostInput): Promise<SaveResult> {
       body: d.body,
       authorName: d.authorName,
       published: d.published,
-      ...(d.publishTime ? { publishTime: d.publishTime } : {}), // else DB default now()
+      publishTime,
     })
     .returning({ id: posts.id, slug: posts.slug })
 
