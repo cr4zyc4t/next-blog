@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { ConfirmDelete } from '@/components/post-list/ConfirmDelete'
 import { db } from '@/db/client'
 import { listAllForStudio } from '@/lib/posts/queries'
 
@@ -30,7 +31,8 @@ export default async function StudioPostsPage() {
               {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(post.updatedAt)}
             </p>
             <p>
-              <Link href={`/studio/posts/${post.id}`}>Edit</Link>
+              <Link href={`/studio/posts/${post.id}`}>Edit</Link>{' '}
+              <ConfirmDelete id={post.id} title={post.title} />
             </p>
           </article>
         ))}

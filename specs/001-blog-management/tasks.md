@@ -155,13 +155,13 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ### Tests for User Story 5 ⚠️
 
-- [ ] T045 [P] [US5] Failing E2E `tests/e2e/delete-post.spec.ts`: choose delete then cancel confirmation → post unchanged (US5-2); confirm → permanently removed from home and studio list, direct slug 404 (US5-1, FR-013/014, SC-007)
+- [X] T045 [P] [US5] Failing E2E `tests/e2e/delete-post.spec.ts`: choose delete then cancel confirmation → post unchanged (US5-2); confirm → permanently removed from home and studio list, direct slug 404 (US5-1, FR-013/014, SC-007)
 
 ### Implementation for User Story 5
 
-- [ ] T046 [US5] Server Action `deletePost(id)` in `src/lib/actions/deletePost.ts`: deletes row permanently; revalidate home/studio (FR-014)
-- [ ] T047 [US5] Confirmation dialog `src/components/post-list/ConfirmDelete.tsx` wired into studio list rows (T036): "UI must confirm before invoking; cancel → no action" (FR-013)
-- [ ] T048 [US5] Run `tests/e2e/delete-post.spec.ts` green, then all gates
+- [X] T046 [US5] Server Action `deletePost(id)` in `src/lib/actions/deletePost.ts`: deletes row permanently; revalidate home/studio (FR-014)
+- [X] T047 [US5] Confirmation dialog `src/components/post-list/ConfirmDelete.tsx` wired into studio list rows (T036): "UI must confirm before invoking; cancel → no action" (FR-013)
+- [X] T048 [US5] Run `tests/e2e/delete-post.spec.ts` green, then all gates
 
 **Checkpoint**: All five user stories independently functional
 
