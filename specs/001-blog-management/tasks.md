@@ -48,9 +48,9 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 - [ ] T012 Implement shared Zod schemas + field-error mapping in `src/lib/validation/post-schema.ts` to make T011 pass
 - [ ] T013 [P] Write FAILING unit tests in `src/tests/posts-queries.test.ts` (against a test database from compose) for data-model Query contracts: first batch predicate "published = true AND publish_time <= now()" `ORDER BY publish_time DESC, id DESC LIMIT 10`; keyset cursor "(publish_time, id) < (cursor.publish_time, cursor.id) LIMIT 10"; slug fetch returns row only if visible (else none); studio list returns ALL posts any state, "newest updated_at first"
 - [ ] T014 Implement service queries in `src/lib/posts/queries.ts` (`listFirstBatch`, `loadMoreBatch`, `getVisibleBySlug`, `listAllForStudio`) to make T013 pass, plus the test-DB harness in `src/tests/db-harness.ts`
-- [ ] T015 [P] Markdown render component `src/components/markdown/MarkdownBody.tsx` (react-markdown + remark-gfm + rehype-sanitize — "no raw HTML/script execution" per contracts cross-cutting guarantees) with component tests in `src/tests/markdown-body.test.ts` (script/HTML input is sanitized away)
+- [ ] T015 [P] FIRST write FAILING component tests in `src/tests/markdown-body.test.ts`: script tags and raw HTML in post bodies are sanitized away ("no raw HTML/script execution" per contracts cross-cutting guarantees); headings/bold/italic/links/lists render correctly. THEN implement `src/components/markdown/MarkdownBody.tsx` (react-markdown + remark-gfm + rehype-sanitize) until the tests pass
 - [ ] T016 Seed script `scripts/seed.ts` (`npm run db:seed`): ≥12 published posts (fast-load-more validation), 1 unpublished, 1 future-scheduled — used by US1/US4 E2E and quickstart scenarios
-- [ ] T017 Middleware `src/middleware.ts`: rewrite configured `STUDIO_BASE_PATH` → `/studio` route group; add header `X-Robots-Tag: noindex` to all `/studio` responses (contracts Cross-cutting)
+- [ ] T017 FIRST write FAILING E2E `tests/e2e/unlisted.spec.ts` for FR-008: home page HTML contains no reference to the studio path; every `/studio/*` response carries `X-Robots-Tag: noindex` (quickstart scenario 10). THEN implement `src/middleware.ts` — rewrite configured `STUDIO_BASE_PATH` → `/studio` route group, add `X-Robots-Tag: noindex` to all `/studio` responses — until the spec passes (contracts Cross-cutting)
 - [ ] T018 Studio scaffold: `src/app/(studio)/layout.tsx` shell (not linked from any public page, FR-008) and `robots.txt` handling that omits `/studio`
 
 **Checkpoint**: DB, validation, queries, renderer, seed, and studio routing exist — user stories can begin (US1 and US2 may proceed in parallel)
@@ -65,7 +65,7 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ### Tests for User Story 1 ⚠️ (write FIRST, verify they fail)
 
-- [ ] T019 [P] [US1] Failing E2E `tests/e2e/home.spec.ts` for acceptance scenarios: two+ published posts listed newest-first; unpublished absent; future-scheduled absent; each entry shows "title, description, author name, and publication date"; zero posts → friendly empty state; 12+ seeded posts → first batch 10, "load more" appends remaining, control disappears when exhausted (FR-001…007, SC-001)
+- [ ] T019 [P] [US1] Failing E2E `tests/e2e/home.spec.ts` for acceptance scenarios: two+ published posts listed newest-first; unpublished absent; future-scheduled absent; each entry shows "title, description, author name, and publication date"; zero posts → friendly empty state; 12+ seeded posts → first batch 10, "load more" appends remaining, control disappears when exhausted (FR-001…007); assert SC-001 timing — initial batch visible within 2 s of navigation and each "load more" batch within 2 s of the click (Playwright `expect.poll` with 2000 ms budget, dev-profile numbers, not CI-critical)
 - [ ] T020 [P] [US1] Failing E2E `tests/e2e/post-page.spec.ts`: clicking a home entry opens `/posts/{slug}` with full body formatting preserved (FR-005, FR-017); direct GET of an unpublished or not-yet-visible post's slug → 404 (SC-004)
 
 ### Implementation for User Story 1
@@ -169,7 +169,7 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ## Phase 8: Polish & Cross-Cutting Concerns
 
-- [ ] T049 [P] E2E `tests/e2e/unlisted.spec.ts` for FR-008: home page HTML contains no reference to the studio path; every `/studio/*` response carries `X-Robots-Tag: noindex` (quickstart scenario 10)
+- [ ] T049 [P] Re-run `tests/e2e/unlisted.spec.ts` (created in T017) green after all stories — regression check that no later story linked `/studio` from public pages (FR-008, quickstart scenario 10)
 - [ ] T050 [P] Accessibility/UX pass in `src/components/post-editor/PostForm.tsx`, `PostEditor.tsx`, `PublishControls.tsx`, `src/components/post-list/LoadMoreButton.tsx`, `src/app/page.tsx`: form labels + inline error association, keyboard use of editor toggle and load-more, date field errors announced (supports SC-006 unaided-error-resolution target)
 - [ ] T051 Full constitution gate run (Principle III) using the package.json scripts from T007: `npm run lint && npm run typecheck && npm run test && npm run test:e2e` — all green, fix any failure (never bypass)
 - [ ] T052 Run `quickstart.md` validation scenarios 1–10 end-to-end against the dev topology (`docker compose up -d db` + native `npm run dev`), record results

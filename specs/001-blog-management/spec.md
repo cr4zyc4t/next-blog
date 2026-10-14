@@ -17,6 +17,7 @@
 - Q: How should the home page list behave as published posts grow? → A: Progressive loading via a "load more" button that appends older batches in newest-first order.
 - Q: Against which clock is an author's entered future publish time interpreted? → A: The author's local time, converted once at save time to an exact instant.
 - Q: What author authentication must this phase include to protect the management area? → A: No sign-in this phase — management pages are reachable only via an unlisted, private address not linked from the public site.
+- Q: Does the public post address use an internal id or a title-derived slug? → A: Slug — unique, derived from the title, public URLs are `/posts/{slug}` (user directive during planning).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -126,7 +127,7 @@ An author removes a post they no longer want published. Deletion asks for confir
 - **FR-002**: System MUST include in the list only posts that are marked published AND whose publish time has arrived (publish time defaults to the moment of publication when not scheduled).
 - **FR-003**: System MUST order the list by publish time, newest first.
 - **FR-004**: Each list entry MUST show the post's title, description, author, and publish date.
-- **FR-005**: System MUST open a dedicated public post page when a visitor selects a home-page entry, showing that post's title, author, publish date, and full rendered body.
+- **FR-005**: System MUST open a dedicated public post page — at a unique, title-derived address (`/posts/{slug}`) — when a visitor selects a home-page entry, showing that post's title, author, publish date, and full rendered body.
 - **FR-006**: System MUST show the home-page list in batches: an initial batch of the most recent published posts, plus a "load more" control that appends the next batch in the same newest-first order; the control MUST disappear once all qualifying posts are shown.
 - **FR-007**: System MUST show a friendly empty state when no posts qualify for the list.
 
@@ -156,7 +157,7 @@ An author removes a post they no longer want published. Deletion asks for confir
 
 ### Key Entities
 
-- **Blog Post**: A single article. Attributes: title (required), description (short summary), body (formatted rich-text/markdown content), author, publish date/time, published state (published / not published). A post has exactly one author.
+- **Blog Post**: A single article. Attributes: title (required), URL slug (unique, derived from the title), description (short summary), body (formatted rich-text/markdown content), author, publish date/time, published state (published / not published). A post has exactly one author.
 - **Author**: The content owner named on posts and used to manage them. In this phase, identified by a configurable display name (a blog default, overridable per post); no accounts or credentials exist yet.
 
 ## Success Criteria *(mandatory)*
