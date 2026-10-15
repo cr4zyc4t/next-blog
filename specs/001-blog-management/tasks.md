@@ -169,11 +169,11 @@ description: "Tasks for Blog Post Management (001-blog-management)"
 
 ## Phase 8: Polish & Cross-Cutting Concerns
 
-- [ ] T049 [P] Re-run `tests/e2e/unlisted.spec.ts` (created in T017) green after all stories — regression check that no later story linked `/studio` from public pages (FR-008, quickstart scenario 10)
-- [ ] T050 [P] Accessibility/UX pass in `src/components/post-editor/PostForm.tsx`, `PostEditor.tsx`, `PublishControls.tsx`, `src/components/post-list/LoadMoreButton.tsx`, `src/app/page.tsx`: form labels + inline error association, keyboard use of editor toggle and load-more, date field errors announced (supports SC-006 unaided-error-resolution target)
-- [ ] T051 Full constitution gate run (Principle III) using the package.json scripts from T007: `npm run lint && npm run typecheck && npm run test && npm run test:e2e` — all green, fix any failure (never bypass)
-- [ ] T052 Run `quickstart.md` validation scenarios 1–10 end-to-end against the dev topology (`docker compose up -d db` + native `npm run dev`), record results
-- [ ] T053 Deploy-profile validation: `docker compose --profile deploy up -d --build` then re-verify quickstart scenarios 1, 4, 5 against the container (research D11)
+- [X] T049 [P] Re-run `tests/e2e/unlisted.spec.ts` (created in T017) green after all stories — regression check that no later story linked `/studio` from public pages (FR-008, quickstart scenario 10)
+- [X] T050 [P] Accessibility/UX pass in `src/components/post-editor/PostForm.tsx`, `PostEditor.tsx`, `PublishControls.tsx`, `src/components/post-list/LoadMoreButton.tsx`, `src/app/page.tsx`: form labels + inline error association, keyboard use of editor toggle and load-more, date field errors announced (supports SC-006 unaided-error-resolution target)
+- [X] T051 Full constitution gate run (Principle III) using the package.json scripts from T007: `npm run lint && npm run typecheck && npm run test && npm run test:e2e` — all green, fix any failure (never bypass)
+- [X] T052 Run `quickstart.md` validation scenarios 1–10 end-to-end against the dev topology (`docker compose up -d db` + native `npm run dev`), record results
+- [X] T053 Deploy-profile validation: `docker compose --profile deploy up -d --build` then re-verify quickstart scenarios 1, 4, 5 against the container (research D11)
 
 ---
 
@@ -235,3 +235,8 @@ Task: "Server Action savePost CREATE in src/lib/actions/savePost.ts (T032)"
 - Scheduled-post E2E (T040) creates the post at now+~60 s and waits — keep it deterministic with a small offset; do not fake system time.
 - Commit after each task or logical group; stop at any checkpoint for independent story validation.
 - No auth tasks exist by design (spec Assumption, clarification session 2026-10-14 Q5).
+- T053 found and fixed a deploy blocker: `src/db/client.ts` threw at import time during
+  `next build` page-data collection; the pg pool is now created lazily (TDD test in
+  `src/tests/db-client.test.ts`). Deploy-profile re-validation: `npx playwright test
+  --config=playwright.deploy.config.ts` against `docker compose --profile deploy up -d --build`
+  (same `db` service; dev server must be stopped so the app container owns port 3000).
