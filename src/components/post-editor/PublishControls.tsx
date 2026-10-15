@@ -9,9 +9,14 @@
 export function PublishControls({
   value,
   onChange,
+  invalid,
+  describedBy,
 }: {
   value: string
   onChange: (value: string) => void
+  /** T050 a11y: link the server-rendered date error to the field. */
+  invalid?: boolean
+  describedBy?: string
 }) {
   return (
     <div className="publish-controls">
@@ -22,8 +27,10 @@ export function PublishControls({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         step={60}
+        aria-invalid={invalid || undefined}
+        aria-describedby={[describedBy, 'publish-time-hint'].filter(Boolean).join(' ')}
       />
-      <p className="hint">
+      <p className="hint" id="publish-time-hint">
         Leave empty to publish now. A future time schedules the post — it stays hidden
         until that moment.
       </p>

@@ -23,7 +23,7 @@ export function ConfirmDelete({ id, title }: { id: string; title: string }) {
   }
 
   return (
-    <button type="button" onClick={onClick} disabled={pending} aria-label="Delete">
+    <button type="button" onClick={onClick} disabled={pending} aria-label={`Delete "${title}"`}>
       {pending ? 'Deleting…' : 'Delete'}
     </button>
   )

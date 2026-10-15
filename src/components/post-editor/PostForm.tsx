@@ -66,8 +66,19 @@ export function PostForm({
     })
   }
 
+  // T050 a11y: inline errors are announced (role="alert") and associated with
+  // their control (aria-describedby/aria-invalid) — SC-006 unaided correction.
+  const errorId = (key: string) => `${key}-error`
   const error = (key: string) =>
-    fieldErrors[key] ? <p className="field-error">{fieldErrors[key]}</p> : null
+    fieldErrors[key] ? (
+      <p id={errorId(key)} role="alert" className="field-error">
+        {fieldErrors[key]}
+      </p>
+    ) : null
+  const invalidProps = (key: string) =>
+    fieldErrors[key]
+      ? { 'aria-invalid': true as const, 'aria-describedby': errorId(key) }
+      : {}
 
   return (
     <form onSubmit={onSubmit} className="post-form">
@@ -77,6 +88,7 @@ export function PostForm({
         value={values.title}
         onChange={(e) => set('title')(e.target.value)}
         maxLength={200}
+        {...invalidProps('title')}
       />
       {error('title')}
 
@@ -87,6 +99,7 @@ export function PostForm({
         value={values.description}
         onChange={(e) => set('description')(e.target.value)}
         maxLength={500}
+        {...invalidProps('description')}
       />
       {error('description')}
 
@@ -96,6 +109,7 @@ export function PostForm({
         value={values.authorName}
         onChange={(e) => set('authorName')(e.target.value)}
         maxLength={100}
+        {...invalidProps('authorName')}
       />
       {error('authorName')}
 
@@ -109,10 +123,15 @@ export function PostForm({
         Published
       </label>
 
-      <PublishControls value={publishLocal} onChange={setPublishLocal} />
+      <PublishControls
+        value={publishLocal}
+        onChange={setPublishLocal}
+        invalid={!!fieldErrors.publishTime}
+        describedBy={fieldErrors.publishTime ? errorId('publishTime') : undefined}
+      />
       {error('publishTime')}
 
-      <fieldset>
+      <fieldset {...(fieldErrors.body ? { 'aria-describedby': errorId('body') } : {})}>
         <legend>Body</legend>
         <PostEditor initialMarkdown={values.body} onChange={(md) => set('body')(md)} />
       </fieldset>
@@ -121,7 +140,11 @@ export function PostForm({
       <button type="submit" disabled={pending} aria-label="Save post">
         {pending ? 'Saving…' : 'Save post'}
       </button>
-      {fieldErrors.form ? <p className="field-error">{fieldErrors.form}</p> : null}
+      {fieldErrors.form ? (
+        <p role="alert" className="field-error">
+          {fieldErrors.form}
+        </p>
+      ) : null}
     </form>
   )
 }

@@ -14,6 +14,7 @@ export function editorExtensions() {
   return [
     StarterKit.configure({
       heading: { levels: [1, 2, 3] },
+      link: false, // StarterKit (Tiptap v3) bundles Link; keep the configured one below
     }),
     Link.configure({ openOnClick: false, autolink: true }),
     Markdown.configure({
