@@ -3,15 +3,15 @@ import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
 
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-  test: {
-    environment: 'jsdom',
-    setupFiles: ['./src/tests/setup-env.ts', './src/tests/setup.ts'],
-    include: ['src/tests/**/*.test.{ts,tsx}'],
-  },
+	plugins: [react()],
+	resolve: {
+		alias: {
+			'@': fileURLToPath(new URL('./src', import.meta.url)),
+		},
+	},
+	test: {
+		environment: 'jsdom',
+		setupFiles: ['./src/tests/setup-env.ts', './src/tests/setup.ts'],
+		include: ['src/tests/**/*.test.{ts,tsx}'],
+	},
 })

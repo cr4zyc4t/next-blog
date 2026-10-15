@@ -12,14 +12,14 @@ const globalForDb = globalThis as unknown as { pool?: Pool }
 let modulePool: Pool | undefined
 
 function getPool(): Pool {
-  const url = process.env.DATABASE_URL
-  if (!url) throw new Error(CONFIG_ERROR)
-  if (process.env.NODE_ENV === 'production') {
-    modulePool ??= new Pool({ connectionString: url })
-    return modulePool
-  }
-  globalForDb.pool ??= new Pool({ connectionString: url })
-  return globalForDb.pool
+	const url = process.env.DATABASE_URL
+	if (!url) throw new Error(CONFIG_ERROR)
+	if (process.env.NODE_ENV === 'production') {
+		modulePool ??= new Pool({ connectionString: url })
+		return modulePool
+	}
+	globalForDb.pool ??= new Pool({ connectionString: url })
+	return globalForDb.pool
 }
 
 // Properties drizzle uses to actually talk to Postgres; everything else
@@ -34,17 +34,17 @@ const CLIENT_API_PROPS = new Set(['connect', 'query', 'end'])
 const deferredTarget = Object.create(Pool.prototype) as Pool
 
 const deferredPool = new Proxy(deferredTarget, {
-  get(_target, prop) {
-    if (!process.env.DATABASE_URL) {
-      if (typeof prop === 'string' && CLIENT_API_PROPS.has(prop)) {
-        throw new Error(CONFIG_ERROR)
-      }
-      return Reflect.get(_target, prop, _target) // inert while unconfigured
-    }
-    const real = getPool()
-    const value = Reflect.get(real, prop, real)
-    return typeof value === 'function' ? value.bind(real) : value
-  },
+	get(_target, prop) {
+		if (!process.env.DATABASE_URL) {
+			if (typeof prop === 'string' && CLIENT_API_PROPS.has(prop)) {
+				throw new Error(CONFIG_ERROR)
+			}
+			return Reflect.get(_target, prop, _target) // inert while unconfigured
+		}
+		const real = getPool()
+		const value = Reflect.get(real, prop, real)
+		return typeof value === 'function' ? value.bind(real) : value
+	},
 })
 
 export const db = drizzle(deferredPool, { schema })

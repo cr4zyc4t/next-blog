@@ -80,11 +80,11 @@ All technology choices were **user-directed** (Next.js latest, Postgres + Drizzl
 
 ## Open items from spec, now resolved
 
-| Spec item | Resolution |
-|-----------|------------|
-| "exact limits are set at planning time" (Assumptions) | D10 |
-| "batch sizes set at planning time" (Assumptions) | D5/D10 |
-| unlisted "management addresses" mechanism (FR-008) | D6 |
-| author "configured default" (FR-009) | D7 |
+| Spec item                                             | Resolution |
+| ----------------------------------------------------- | ---------- |
+| "exact limits are set at planning time" (Assumptions) | D10        |
+| "batch sizes set at planning time" (Assumptions)      | D5/D10     |
+| unlisted "management addresses" mechanism (FR-008)    | D6         |
+| author "configured default" (FR-009)                  | D7         |
 
 No NEEDS CLARIFICATION markers remain.

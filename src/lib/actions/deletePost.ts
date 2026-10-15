@@ -11,9 +11,9 @@ import { eq } from 'drizzle-orm'
  * confirmation dialog is the safeguard). Revalidates public and studio lists.
  */
 export async function deletePost(id: string): Promise<{ ok: boolean }> {
-  if (!/^[0-9a-f-]{36}$/i.test(id)) return { ok: false }
-  await db.delete(posts).where(eq(posts.id, id))
-  revalidatePath('/')
-  revalidatePath('/studio/posts')
-  return { ok: true }
+	if (!/^[0-9a-f-]{36}$/i.test(id)) return { ok: false }
+	await db.delete(posts).where(eq(posts.id, id))
+	revalidatePath('/')
+	revalidatePath('/studio/posts')
+	return { ok: true }
 }

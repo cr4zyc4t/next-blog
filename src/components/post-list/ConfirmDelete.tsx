@@ -11,20 +11,20 @@ import { deletePost } from '@/lib/actions/deletePost'
  * Server Action.
  */
 export function ConfirmDelete({ id, title }: { id: string; title: string }) {
-  const router = useRouter()
-  const [pending, startTransition] = useTransition()
+	const router = useRouter()
+	const [pending, startTransition] = useTransition()
 
-  const onClick = () => {
-    if (!window.confirm(`Delete "${title}" permanently? This cannot be undone.`)) return
-    startTransition(async () => {
-      await deletePost(id)
-      router.refresh()
-    })
-  }
+	const onClick = () => {
+		if (!window.confirm(`Delete "${title}" permanently? This cannot be undone.`)) return
+		startTransition(async () => {
+			await deletePost(id)
+			router.refresh()
+		})
+	}
 
-  return (
-    <button type="button" onClick={onClick} disabled={pending} aria-label={`Delete "${title}"`}>
-      {pending ? 'Deleting…' : 'Delete'}
-    </button>
-  )
+	return (
+		<button type="button" onClick={onClick} disabled={pending} aria-label={`Delete "${title}"`}>
+			{pending ? 'Deleting…' : 'Delete'}
+		</button>
+	)
 }

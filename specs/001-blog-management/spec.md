@@ -19,7 +19,7 @@
 - Q: What author authentication must this phase include to protect the management area? → A: No sign-in this phase — management pages are reachable only via an unlisted, private address not linked from the public site.
 - Q: Does the public post address use an internal id or a title-derived slug? → A: Slug — unique, derived from the title, public URLs are `/posts/{slug}` (user directive during planning).
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Browse published posts on the home page (Priority: P1)
 
@@ -115,9 +115,9 @@ An author removes a post they no longer want published. Deletion asks for confir
 - **Very long title or description**: Input limits are enforced with a clear message when exceeded, and listing layouts do not break on maximum-length values.
 - **Mixed editor content**: Content authored in WYSIWYG mode is shown as equivalent markdown when the editor switches to raw markdown mode (and vice versa), with no data loss in either direction.
 - **Scheduled post and time zone**: A publish time entered by the author is their local wall-clock time, converted once at save time into an exact instant; visibility is decided by that instant, so daylight shifts or viewer time zones never move a post's actual publication moment.
-- **Two authors editing the same post** *(out of scope for this phase; last save wins — noted in Out of Scope / Assumptions)*.
+- **Two authors editing the same post** _(out of scope for this phase; last save wins — noted in Out of Scope / Assumptions)_.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -160,7 +160,7 @@ An author removes a post they no longer want published. Deletion asks for confir
 - **Blog Post**: A single article. Attributes: title (required), URL slug (unique, derived from the title), description (short summary), body (formatted rich-text/markdown content), author, publish date/time, published state (published / not published). A post has exactly one author.
 - **Author**: The content owner named on posts and used to manage them. In this phase, identified by a configurable display name (a blog default, overridable per post); no accounts or credentials exist yet.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -10,22 +10,18 @@ export const MAX_YEAR = 2100
 
 /** Parse an instant string; returns null when malformed or nonsensical (FR-022). */
 export function parsePublishedDateTime(value: string): Date | null {
-  const iso = /[zZ]$|[+-]\d{2}:?\d{2}$/.test(value) ? value : `${value}Z`
-  const date = new Date(iso)
-  if (Number.isNaN(date.getTime())) return null
-  const year = date.getUTCFullYear()
-  if (year < MIN_YEAR || year > MAX_YEAR) return null
-  return date
+	const iso = /[zZ]$|[+-]\d{2}:?\d{2}$/.test(value) ? value : `${value}Z`
+	const date = new Date(iso)
+	if (Number.isNaN(date.getTime())) return null
+	const year = date.getUTCFullYear()
+	if (year < MIN_YEAR || year > MAX_YEAR) return null
+	return date
 }
 
 /**
  * Resolve the stored publish_time on save (FR-019/020/021 + spec Assumption
  * "publish time defaults to the moment of publication when not scheduled").
  */
-export function resolvePublishTime(
-  published: boolean,
-  chosen: Date | null,
-  now: Date,
-): Date {
-  return chosen ?? now
+export function resolvePublishTime(published: boolean, chosen: Date | null, now: Date): Date {
+	return chosen ?? now
 }

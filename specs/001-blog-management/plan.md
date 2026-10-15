@@ -32,16 +32,16 @@ A single-user blog application: a public home page listing published posts (newe
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | How satisfied |
-|-----------|--------|---------------|
-| I. Spec-Driven Development | PASS | Spec approved with 5 clarifications; this plan and all tasks trace to FR-001…FR-022 |
-| II. Test-First (TDD) — NON-NEGOTIABLE | PASS (committed) | Vitest unit tests written first per task; Playwright covers the 5 user stories' acceptance scenarios; Red-Green-Refactor recorded per task |
-| III. Quality Gates — lint, typecheck, tests — NON-NEGOTIABLE | PASS (committed) | Exposed as repeatable npm scripts: `npm run lint`, `npm run typecheck`, `npm run test`; run green at feature completion |
-| IV. Static Typing Discipline | PASS | `typescript` strict mode; Drizzle gives end-to-end row types; no `any` without documented suppression |
-| V. Simplicity / YAGNI | PASS | One table, one app, no auth, no Redis/CDN/ISR tiers, no slug machinery; every dependency maps to a spec FR (editor → FR-015/016/018; markdown renderer → FR-017) |
-| Additional Constraints (Next.js, ESLint, gate scripts) | PASS | Next.js 16 App Router as named in constitution; ESLint + Prettier per user directive; gate scripts as above |
+| Principle                                                    | Status           | How satisfied                                                                                                                                                    |
+| ------------------------------------------------------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| I. Spec-Driven Development                                   | PASS             | Spec approved with 5 clarifications; this plan and all tasks trace to FR-001…FR-022                                                                              |
+| II. Test-First (TDD) — NON-NEGOTIABLE                        | PASS (committed) | Vitest unit tests written first per task; Playwright covers the 5 user stories' acceptance scenarios; Red-Green-Refactor recorded per task                       |
+| III. Quality Gates — lint, typecheck, tests — NON-NEGOTIABLE | PASS (committed) | Exposed as repeatable npm scripts: `npm run lint`, `npm run typecheck`, `npm run test`; run green at feature completion                                          |
+| IV. Static Typing Discipline                                 | PASS             | `typescript` strict mode; Drizzle gives end-to-end row types; no `any` without documented suppression                                                            |
+| V. Simplicity / YAGNI                                        | PASS             | One table, one app, no auth, no Redis/CDN/ISR tiers, no slug machinery; every dependency maps to a spec FR (editor → FR-015/016/018; markdown renderer → FR-017) |
+| Additional Constraints (Next.js, ESLint, gate scripts)       | PASS             | Next.js 16 App Router as named in constitution; ESLint + Prettier per user directive; gate scripts as above                                                      |
 
 **Gate evaluation**: No violations → Complexity Tracking unused. Proceed to Phase 0.
 

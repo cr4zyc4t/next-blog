@@ -11,12 +11,12 @@ import { posts } from '@/db/schema'
 export const DEFAULT_BATCH_SIZE = 10
 
 export type PostListItem = {
-  id: string
-  slug: string
-  title: string
-  description: string
-  authorName: string
-  publishTime: Date
+	id: string
+	slug: string
+	title: string
+	description: string
+	authorName: string
+	publishTime: Date
 }
 
 export type Page<T> = { items: T[]; hasMore: boolean }
@@ -28,63 +28,59 @@ type Db = NodePgDatabase<typeof import('@/db/schema')>
 const visibleWhere = () => and(eq(posts.published, true), sql`${posts.publishTime} <= now()`)
 
 function toItem(p: Post): PostListItem {
-  return {
-    id: p.id,
-    slug: p.slug,
-    title: p.title,
-    description: p.description,
-    authorName: p.authorName,
-    publishTime: p.publishTime,
-  }
+	return {
+		id: p.id,
+		slug: p.slug,
+		title: p.title,
+		description: p.description,
+		authorName: p.authorName,
+		publishTime: p.publishTime,
+	}
 }
 
 async function pageWithHasMore(
-  db: Db,
-  where: ReturnType<typeof and>,
-  limit: number,
+	db: Db,
+	where: ReturnType<typeof and>,
+	limit: number,
 ): Promise<Page<PostListItem>> {
-  const rows = await db
-    .select()
-    .from(posts)
-    .where(where)
-    .orderBy(desc(posts.publishTime), desc(posts.id))
-    .limit(limit + 1)
-  const hasMore = rows.length > limit
-  return { items: rows.slice(0, limit).map(toItem), hasMore }
+	const rows = await db
+		.select()
+		.from(posts)
+		.where(where)
+		.orderBy(desc(posts.publishTime), desc(posts.id))
+		.limit(limit + 1)
+	const hasMore = rows.length > limit
+	return { items: rows.slice(0, limit).map(toItem), hasMore }
 }
 
 /** Contract 1: `WHERE published AND publish_time <= now() ORDER BY publish_time DESC, id DESC LIMIT n` */
 export function listFirstBatch(db: Db, limit: number = DEFAULT_BATCH_SIZE) {
-  return pageWithHasMore(db, visibleWhere(), limit)
+	return pageWithHasMore(db, visibleWhere(), limit)
 }
 
 /** Contract 2: keyset — `AND (publish_time, id) < (cursor.publish_time, cursor.id)` */
-export function loadMoreBatch(
-  db: Db,
-  cursor: Cursor,
-  limit: number = DEFAULT_BATCH_SIZE,
-) {
-  const where = and(
-    visibleWhere(),
-    or(
-      lt(posts.publishTime, cursor.publishTime),
-      sql`(${posts.publishTime} = ${cursor.publishTime} AND ${posts.id} < ${cursor.id})`,
-    ),
-  )
-  return pageWithHasMore(db, where, limit)
+export function loadMoreBatch(db: Db, cursor: Cursor, limit: number = DEFAULT_BATCH_SIZE) {
+	const where = and(
+		visibleWhere(),
+		or(
+			lt(posts.publishTime, cursor.publishTime),
+			sql`(${posts.publishTime} = ${cursor.publishTime} AND ${posts.id} < ${cursor.id})`,
+		),
+	)
+	return pageWithHasMore(db, where, limit)
 }
 
 /** Contract 3: slug fetch — visible only (404 rule enforced by caller) */
 export async function getVisibleBySlug(db: Db, slug: string): Promise<Post | undefined> {
-  const rows = await db
-    .select()
-    .from(posts)
-    .where(and(eq(posts.slug, slug), visibleWhere()))
-    .limit(1)
-  return rows[0]
+	const rows = await db
+		.select()
+		.from(posts)
+		.where(and(eq(posts.slug, slug), visibleWhere()))
+		.limit(1)
+	return rows[0]
 }
 
 /** Contract 4: studio list — ALL posts, newest updated_at first */
 export async function listAllForStudio(db: Db): Promise<Post[]> {
-  return db.select().from(posts).orderBy(desc(posts.updatedAt), desc(posts.id))
+	return db.select().from(posts).orderBy(desc(posts.updatedAt), desc(posts.id))
 }

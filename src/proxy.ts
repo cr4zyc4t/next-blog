@@ -10,14 +10,14 @@ import { NextResponse, type NextRequest } from 'next/server'
 const INTERNAL = '/studio'
 
 export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl
-  const response = NextResponse.next()
-  if (pathname === INTERNAL || pathname.startsWith(`${INTERNAL}/`)) {
-    response.headers.set('x-robots-tag', 'noindex')
-  }
-  return response
+	const { pathname } = request.nextUrl
+	const response = NextResponse.next()
+	if (pathname === INTERNAL || pathname.startsWith(`${INTERNAL}/`)) {
+		response.headers.set('x-robots-tag', 'noindex')
+	}
+	return response
 }
 
 export const config = {
-  matcher: ['/studio', '/studio/:path*'],
+	matcher: ['/studio', '/studio/:path*'],
 }

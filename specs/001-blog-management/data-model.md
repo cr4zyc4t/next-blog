@@ -6,18 +6,18 @@
 
 One table serves the whole phase (Key Entities: Blog Post; Author is a name string, not a table — research D7).
 
-| Column | Type | Constraints | Maps to |
-|--------|------|-------------|---------|
-| `id` | `uuid` (uuidv7) | PK, server-generated | internal addressing; management routes (D9) |
-| `slug` | `varchar(220)` | NOT NULL, UNIQUE, generated from title (slugify; `-2`/`-3` suffix on collision; regenerated on title change) | public URL `/posts/{slug}` — FR-005, D9 |
-| `title` | `varchar(200)` | NOT NULL, trimmed, non-empty | FR-009, FR-010, D10 |
-| `description` | `varchar(500)` | NOT NULL, default `''` | FR-004, D10 |
-| `body` | `text` | NOT NULL, default `''`, canonical **markdown** | FR-015/016/017/018 (D3) |
-| `author_name` | `varchar(100)` | NOT NULL (form default = env `AUTHOR_DEFAULT_NAME`) | FR-009, D7 |
-| `published` | `boolean` | NOT NULL, default `false` | FR-002, spec publish-state model |
-| `publish_time` | `timestamptz` | NOT NULL, default `now()` at creation when publishing without a chosen time | FR-019/021, D8 |
-| `created_at` | `timestamptz` | NOT NULL, default `now()` | audit |
-| `updated_at` | `timestamptz` | NOT NULL, auto-updated | FR-012 ("changes reflected") |
+| Column         | Type            | Constraints                                                                                                  | Maps to                                     |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| `id`           | `uuid` (uuidv7) | PK, server-generated                                                                                         | internal addressing; management routes (D9) |
+| `slug`         | `varchar(220)`  | NOT NULL, UNIQUE, generated from title (slugify; `-2`/`-3` suffix on collision; regenerated on title change) | public URL `/posts/{slug}` — FR-005, D9     |
+| `title`        | `varchar(200)`  | NOT NULL, trimmed, non-empty                                                                                 | FR-009, FR-010, D10                         |
+| `description`  | `varchar(500)`  | NOT NULL, default `''`                                                                                       | FR-004, D10                                 |
+| `body`         | `text`          | NOT NULL, default `''`, canonical **markdown**                                                               | FR-015/016/017/018 (D3)                     |
+| `author_name`  | `varchar(100)`  | NOT NULL (form default = env `AUTHOR_DEFAULT_NAME`)                                                          | FR-009, D7                                  |
+| `published`    | `boolean`       | NOT NULL, default `false`                                                                                    | FR-002, spec publish-state model            |
+| `publish_time` | `timestamptz`   | NOT NULL, default `now()` at creation when publishing without a chosen time                                  | FR-019/021, D8                              |
+| `created_at`   | `timestamptz`   | NOT NULL, default `now()`                                                                                    | audit                                       |
+| `updated_at`   | `timestamptz`   | NOT NULL, auto-updated                                                                                       | FR-012 ("changes reflected")                |
 
 **Indexes**: `idx_posts_visible (published, publish_time DESC)` — supports the visibility query and keyset batches (D4/D5); `uq_posts_slug (slug)` UNIQUE — public lookups (D9).
 
@@ -42,16 +42,16 @@ visible(post) ≡ published = true AND publish_time <= now()
 
 Transitions (all via edit/save; no background job):
 
-| From | Action | To (public effect) | FR |
-|------|--------|--------------------|----|
-| draft (`published=false`) | save with `published=true`, no time set | visible immediately (`publish_time = now()`) | FR-021 |
-| draft | save with `published=true`, future time | hidden until instant, then auto-visible | FR-019/020 |
-| draft | save with `published=true`, past time | visible immediately | FR-021 |
-| visible | set `published=false` | hidden at once | FR-012 / US3-2 |
-| visible | set future `publish_time` | hidden until new instant | Edge Case "past to future" |
-| scheduled (`published=true`, future) | push `publish_time` later | new instant controls | US4-3 |
-| scheduled but `published=false` | — | hidden (both conditions required) | Edge Case "Scheduling while unpublished" |
-| any | confirmed delete | row removed permanently | FR-013/014 |
+| From                                 | Action                                  | To (public effect)                           | FR                                       |
+| ------------------------------------ | --------------------------------------- | -------------------------------------------- | ---------------------------------------- |
+| draft (`published=false`)            | save with `published=true`, no time set | visible immediately (`publish_time = now()`) | FR-021                                   |
+| draft                                | save with `published=true`, future time | hidden until instant, then auto-visible      | FR-019/020                               |
+| draft                                | save with `published=true`, past time   | visible immediately                          | FR-021                                   |
+| visible                              | set `published=false`                   | hidden at once                               | FR-012 / US3-2                           |
+| visible                              | set future `publish_time`               | hidden until new instant                     | Edge Case "past to future"               |
+| scheduled (`published=true`, future) | push `publish_time` later               | new instant controls                         | US4-3                                    |
+| scheduled but `published=false`      | —                                       | hidden (both conditions required)            | Edge Case "Scheduling while unpublished" |
+| any                                  | confirmed delete                        | row removed permanently                      | FR-013/014                               |
 
 ## Query contracts (service layer)
 
